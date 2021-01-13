@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Theta.Pages
 {
-    public partial class BoardPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class BoardPage : BasePage
     {
         public BoardPage()
         {

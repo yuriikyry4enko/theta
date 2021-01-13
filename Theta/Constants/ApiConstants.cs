@@ -1,10 +1,7 @@
 ﻿using System;
 namespace Theta.Constants
 {
-    public class ApiConstants
+    static class ApiConstants
     {
-        public ApiConstants()
-        {
-        }
     }
 }

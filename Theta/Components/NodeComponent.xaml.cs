@@ -5,11 +5,11 @@ using Xamarin.Forms;
 
 namespace Theta.Components
 {
-    public partial class NodeComponent : ContentPage
+    public partial class NodeComponent : Grid
     {
         public NodeComponent()
         {
-            InitializeComponent();
+         
         }
     }
 }

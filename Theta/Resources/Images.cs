@@ -1,10 +1,15 @@
 ﻿using System;
 namespace Theta.Resources
 {
-    public class Images
+    public static class Images
     {
-        public Images()
-        {
-        }
+        const string SvgResourcesUrl = "resource://Theta.Resources";
+
+        // Svg assembly resources
+        public static string Menu => GetSvgImageUrl("menu");
+        public static string BackArrow => GetSvgImageUrl("back_arrow");
+        public static string Plus => GetSvgImageUrl("plus");
+
+        static string GetSvgImageUrl(string name) => $"{SvgResourcesUrl}.{name}.svg";
     }
 }

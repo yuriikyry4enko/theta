@@ -1,10 +1,11 @@
 ﻿using System;
 namespace Theta.Constants
 {
-    public class PageNames
+    static class PageNames
     {
-        public PageNames()
-        {
-        }
+        public static string NavigationPage = nameof(Xamarin.Forms.NavigationPage);
+        public static string BoardPage = nameof(Theta.Pages.BoardPage);
+        public static string NodeDetailsPage = nameof(Theta.Pages.NodeDetailsPage);
+        public static string NodeCreationPage = nameof(Theta.Pages.NodeCreationPage);
     }
 }

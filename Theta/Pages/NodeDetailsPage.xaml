@@ -1,5 +1,62 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Theta.Pages.NodeDetailsPage">
-    <ContentPage.Content>
-    </ContentPage.Content>
-</ContentPage>
+<pages:BasePage
+    xmlns:pages="clr-namespace:Theta.Pages"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Theta.Pages.NodeDetailsPage">
+    <StackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+        <StackLayout
+            Orientation="Horizontal">
+            <Label
+                Text="Project:"
+                FontSize="Large"/>
+            <Label
+                Text="{Binding ProjectName}"
+                FontSize="Large"/>
+        </StackLayout>
+        <StackLayout
+            Orientation="Horizontal">
+            <Label
+                Text="Name:"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding NodeName}"
+                FontSize="Small"/>
+        </StackLayout>
+        <Label
+                Text="Description:"
+                FontSize="Medium"/>
+        <StackLayout
+            Orientation="Horizontal">
+            
+            <Label
+                Text="{Binding NodeDescription}"
+                FontSize="Small"/>
+        </StackLayout>
+        <StackLayout
+            Orientation="Horizontal">
+            <Label
+                Text="Status:"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding NodeStatus}"
+                FontSize="Small"/>
+        </StackLayout>
+        <StackLayout
+            Orientation="Horizontal">
+            <Label
+                Text="NodeType:"
+                FontSize="Medium"/>
+            <Label
+                Text="{Binding NodeType}"
+                FontSize="Small"/>
+        </StackLayout>
+        <Button
+            BackgroundColor="Gray"
+            TextColor="White"
+            Text="Back"
+            Command="{Binding BackCommand}"/>
+    </StackLayout>
+</pages:BasePage>

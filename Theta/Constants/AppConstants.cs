@@ -1,10 +1,8 @@
 ﻿using System;
 namespace Theta.Constants
 {
-    public class AppConstants
+    static class AppConstants
     {
-        public AppConstants()
-        {
-        }
+        
     }
 }

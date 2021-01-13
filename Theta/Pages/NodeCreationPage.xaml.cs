@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Theta.Pages
 {
-    public partial class NodeCreationPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class NodeCreationPage : BasePage
     {
         public NodeCreationPage()
         {

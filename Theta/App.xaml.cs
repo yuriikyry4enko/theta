@@ -1,28 +1,36 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Prism.Ioc;
+using Prism.Unity;
+using Prism;
+using Theta.Pages;
+using Theta.ViewModels;
+using Theta.Constants;
+using Theta.Interfaces;
+using Theta.Database;
 
 namespace Theta
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        public App()
+        #region Prism  
+        
+        public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
+
+        protected override void OnInitialized()
         {
             InitializeComponent();
+            NavigationService.NavigateAsync(PageNames.BoardPage);
 
-            MainPage = new MainPage();
         }
-
-        protected override void OnStart()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+
+            containerRegistry.RegisterSingleton<INodeDatabase, NodeDatabase>();
+
+            containerRegistry.RegisterForNavigation<BoardPage, BoardPageViewModel>();
+            containerRegistry.RegisterForNavigation<NodeDetailsPage, NodeDetailsPageViewModel>();
+            containerRegistry.RegisterForNavigation<NodeCreationPage, NodeCreationPageViewModel>();
         }
 
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
+        #endregion
     }
 }

@@ -1,10 +1,17 @@
 ﻿using System;
+using Xamarin.Forms;
+
 namespace Theta.Controls
 {
-    public class Circle
+    public class Circle : ContentView
     {
-        public Circle()
+        public static readonly BindableProperty ColorProperty = BindableProperty.Create(nameof(Color), typeof(Color),
+            typeof(Circle), Xamarin.Forms.Color.Black);
+
+        public Xamarin.Forms.Color Color
         {
+            get => (Xamarin.Forms.Color)GetValue(ColorProperty);
+            set => SetValue(ColorProperty, value);
         }
     }
 }

@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Globalization;
+using Xamarin.Forms;
+
 namespace Theta.Converters
 {
-    public class MenuFitWidthConverter
+    public class MenuFitWidthConverter : IValueConverter
     {
-        public MenuFitWidthConverter()
-        {
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            => ((double)value) - double.Parse(parameter.ToString());
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            => throw new NotImplementedException();
     }
 }
