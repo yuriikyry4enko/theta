@@ -3,7 +3,7 @@ using SQLite;
 
 namespace Theta.Models.Entities
 {
-    class NodeDatabaseModel 
+    public class NodeDatabaseModel 
     {
         [PrimaryKey]
         public int? LocalId { get; set; }
@@ -18,16 +18,17 @@ namespace Theta.Models.Entities
 
         public string Description { get; set; }
 
-        public string NodeType { get; set; }
+        public int? NodeType { get; set; }
 
-        public string Status { get; set; }
+        public int? Status { get; set; }
+
+        public int? Priority { get; set; }
+
+        public int? AssignedEmployeeId { get; set; }
 
         public DateTime BeginDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public int Priority { get; set; }
-
 
         public static NodeDatabaseModel ToNodeDatabaseModel(in NodeModel nodeModel) => new()
         {
@@ -39,7 +40,10 @@ namespace Theta.Models.Entities
             Status = nodeModel.Status,
             Priority = nodeModel.Priority,
             LocalId = nodeModel.LocalId,
-
+            BeginDate = nodeModel.BeginDate,
+            EndDate = nodeModel.EndDate,
+            NodeType = nodeModel.NodeType,
+            AssignedEmployeeId = nodeModel.AssignedEmployeeId,
         };
 
         public static NodeModel ToNodeModel(in NodeDatabaseModel nodeDatabaseModel) => new()
@@ -52,6 +56,10 @@ namespace Theta.Models.Entities
             Status = nodeDatabaseModel.Status,
             Priority = nodeDatabaseModel.Priority,
             LocalId = nodeDatabaseModel.LocalId,
+            BeginDate = nodeDatabaseModel.BeginDate,
+            NodeType = nodeDatabaseModel.NodeType,
+            EndDate = nodeDatabaseModel.EndDate,
+            AssignedEmployeeId = nodeDatabaseModel.AssignedEmployeeId,
 
         };
     }

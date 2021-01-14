@@ -1,4 +1,7 @@
 ﻿using System;
+using SQLite;
+using Theta.Constants;
+
 namespace Theta.Models
 {
     public class NodeModel
@@ -15,14 +18,28 @@ namespace Theta.Models
 
         public string Description { get; set; }
 
-        public string NodeType { get; set; }
+        public int? NodeType { get; set; }
 
-        public string Status { get; set; }
+        public int? AssignedEmployeeId { get; set; }
+
+        public int? Status { get; set; }
+
+        public int? Priority { get; set; }
 
         public DateTime BeginDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        public int Priority { get; set; }
+        [Ignore]
+        public string Title
+        {
+            get
+            {
+                if (NodeType != null)
+                    return $"type:{DictionariesConstants.NodeTypes[NodeType.Value]} title:{Name}";
+                else
+                    return string.Empty;
+            }
+        }
     }
 }

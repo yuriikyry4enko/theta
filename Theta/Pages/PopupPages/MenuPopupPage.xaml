@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rg:PopupPage
+    xmlns:rg="http://rotorgames.com"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Theta.Pages.PopupPages.MenuPopupPage">
+    <Grid
+        VerticalOptions="FillAndExpand"
+        HorizontalOptions="FillAndExpand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.65*"/>
+        </Grid.ColumnDefinitions>
+        <BoxView
+            x:Name="greyBoxView"
+            Grid.Column="1"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="#1F2325"/>
+        <BoxView
+            Grid.Column="0"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="Transparent">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding BackCommand}"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+    </Grid>
+</rg:PopupPage>

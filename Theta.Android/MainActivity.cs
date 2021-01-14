@@ -4,6 +4,7 @@ using Android.Runtime;
 using Android.OS;
 using Prism.Ioc;
 using Prism;
+using Acr.UserDialogs;
 
 namespace Theta.Droid
 {
@@ -17,7 +18,10 @@ namespace Theta.Droid
 
             base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(null);
+            UserDialogs.Init(this);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
@@ -36,6 +40,12 @@ namespace Theta.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+            //Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
         }
     }
 }

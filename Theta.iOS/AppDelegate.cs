@@ -24,6 +24,8 @@ namespace Theta.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Rg.Plugins.Popup.Popup.Init();
+
             global::Xamarin.Forms.Forms.Init();
 
             ContextMenuViewRenderer.Preserve();

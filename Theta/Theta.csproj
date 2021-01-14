@@ -24,6 +24,8 @@
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="ContextViewCell" Version="2.0.2" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.10" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.470" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
@@ -40,6 +42,9 @@
     <Folder Include="Converters\" />
     <Folder Include="Models\NavModels\" />
     <Folder Include="Models\Entities\" />
+    <Folder Include="Pages\PopupPages\" />
+    <Folder Include="ViewModels\PopupViewModels\" />
+    <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\back_arrow.svg" />

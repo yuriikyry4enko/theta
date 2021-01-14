@@ -8,11 +8,11 @@
     xmlns:controls="clr-namespace:Theta.Controls"
     xmlns:resources="clr-namespace:Theta.Resources;assembly=Theta"
     x:Class="Theta.Pages.BoardPage"
-    BackgroundColor="Gray"
     x:Name="root">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:MenuFitWidthConverter x:Key="MenuFitWidthConverter" />
+            <converters:DictionaryKeyToValueConverter x:Key="DictionaryKeyToValueConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid
@@ -20,8 +20,38 @@
         VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <!--Parent header node-->
+        <Frame
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            HeightRequest="175"
+            Grid.Row="0"
+            Grid.RowSpan="2">
+            <Grid
+                Margin="10,45,0,0">
+                <Label
+                    x:Name="parentNodeName"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    VerticalOptions="Center"
+                    HorizontalOptions="StartAndExpand"
+                    Text="{Binding NavigatedNodeModel.SelectedNodeModel.Name}"/>
+            </Grid>
+
+            <Frame.Triggers>
+                <DataTrigger TargetType="Frame"
+                             Binding="{Binding Source={x:Reference parentNodeName}, Path=Text, TargetNullValue=''}"
+                             Value="">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Frame.Triggers>
+        </Frame>
+
 
         <!--Back button-->
         <controls:Circle
@@ -43,6 +73,13 @@
                 <controls:Circle.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding BackCommand}"/>
                 </controls:Circle.GestureRecognizers>
+                <controls:Circle.Triggers>
+                    <DataTrigger TargetType="ContentView"
+                                 Binding="{Binding Source={x:Reference parentNodeName}, Path=Text, TargetNullValue=''}"
+                                 Value="">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </controls:Circle.Triggers>
         </controls:Circle>
 
         <!--Menu-->
@@ -63,12 +100,13 @@
                 TintColor="White"
                 HeightRequest="20"/>
                 <controls:Circle.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding BackCommand}"/>
+                    <TapGestureRecognizer Command="{Binding MenuCommand}"/>
                 </controls:Circle.GestureRecognizers>
         </controls:Circle>
 
+      
         <CollectionView
-            Grid.Row="1"
+            Grid.Row="2"
             x:Name="NodesCollection"
             Margin="0, 25, 0, 0"
             SelectionMode="Single"
@@ -81,7 +119,7 @@
                             <Frame
                                 Margin="15,5"
                                 Padding="20"
-                                HasShadow="False"
+                                BorderColor="LightGray" 
                                 WidthRequest="{Binding Source={x:Reference NodesCollection}, Path=Width, Converter={StaticResource MenuFitWidthConverter}, ConverterParameter='70'}">
                                 <Grid
                                     HorizontalOptions="FillAndExpand"
@@ -100,6 +138,50 @@
                                         VerticalOptions="Center"
                                         HorizontalOptions="StartAndExpand"
                                         Text="{Binding Name}"/>
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Spacing="5"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            TextColor="LightGray"
+                                            VerticalOptions="Center"
+                                            FontSize="Small"
+                                            Text="type:"/>
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start">
+                                            <Label.Text>
+                                                <Binding Path="NodeType">
+                                                    <Binding.Converter>
+                                                        <converters:DictionaryKeyToValueConverter ConstantValue="1"/>
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label
+                                            Margin="20,0,0,0"
+                                            TextColor="LightGray"
+                                            VerticalOptions="Center"
+                                            FontSize="Small"
+                                            Text=" status:"/>
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="StartAndExpand">
+                                            <Label.Text>
+                                                <Binding Path="Status">
+                                                    <Binding.Converter>
+                                                        <converters:DictionaryKeyToValueConverter ConstantValue="2"/>
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                    </StackLayout>
                                 </Grid>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
@@ -144,7 +226,7 @@
 
         <!-- Add node button -->
         <controls:Circle
-                Grid.Row="1"
+            Grid.Row="2"
             VerticalOptions="End"
             HorizontalOptions="End"
             Padding="0"

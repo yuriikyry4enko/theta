@@ -3,60 +3,382 @@
     xmlns:pages="clr-namespace:Theta.Pages"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Theta.Pages.NodeDetailsPage">
-    <StackLayout
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
+    xmlns:controls="clr-namespace:Theta.Controls"
+    x:Class="Theta.Pages.NodeDetailsPage"
+    xmlns:resources="clr-namespace:Theta.Resources;assembly=Theta"
+    xmlns:converters="clr-namespace:Theta.Converters"
+    xmlns:prism="http://prismlibrary.com"
+    x:Name="root">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid
+        Padding="23,42,23,40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            Padding="0"
+            Margin="0,0,0,20">
+            <controls:Circle
+                Grid.Row="0"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Padding="0"
+                HeightRequest="55"
+                WidthRequest="55"
+                Color="DarkGreen">
+                <controls:TintedCachedImage
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="20"
+                    Source="{x:Static resources:Images.BackArrow}"
+                    TintColor="White"
+                    HeightRequest="20"/>
+                    <controls:Circle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}"/>
+                    </controls:Circle.GestureRecognizers>
+            </controls:Circle>
+            <Label
+                Text="Node Editor"
+                VerticalOptions="Center"
+                HorizontalOptions="CenterAndExpand"/>
+        </Grid>
+        <ScrollView
+            Orientation="Vertical"
+            VerticalScrollBarVisibility="Never"
+            Grid.Row="1">
+            <StackLayout
+                Padding="0"
+                Spacing="10"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill">
+                <Label
+                    Text="Name:"
+                    TextColor="Gray"
+                    FontSize="Medium"/>
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding NodeName}"
+                    FontSize="Small">
+                    <Entry.Triggers>
+                        <DataTrigger
+                            TargetType="Entry"
+                            Binding="{Binding IsEditable}"
+                            Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+        
+                <Label
+                    Text="Description:"
+                    TextColor="Gray"
+                    FontSize="Medium"/>
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding NodeDescription}"
+                    FontSize="Small">
+                    <Entry.Triggers>
+                        <DataTrigger
+                            TargetType="Entry"
+                            Binding="{Binding IsEditable}"
+                            Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+
+                <!-- Node type -->
+                <Label
+                    Text="Node Type:"
+                    TextColor="Gray"
+                    FontSize="Medium"/>
+                <Picker
+                    ItemsSource="{Binding NodeTypes}"
+                    SelectedIndex="{Binding NodeTypeId}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small">
+                    <Picker.Triggers>
+                        <DataTrigger
+                            TargetType="Picker"
+                            Binding="{Binding IsEditable}"
+                            Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Picker.Triggers>
+                    <Picker.Behaviors>
+                        <prism:EventToCommandBehavior
+                            EventName="SelectedIndexChanged"
+                            Command="{Binding SelectedIndexNodeTypeChangedCommad}"/>
+                    </Picker.Behaviors>
+                </Picker>
+
+                <!--Parent Id-->
+                <Label
+                    Text="Parent Node:"
+                    TextColor="Gray"
+                    FontSize="Medium"/>
+                <Picker
+                    ItemsSource="{Binding PosibleParentNodes}"
+                    SelectedItem="{Binding ParentModel}"
+                    ItemDisplayBinding="{Binding Title}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small">
+                    <Picker.Triggers>
+                        <DataTrigger
+                            TargetType="Picker"
+                            Binding="{Binding IsEditable}"
+                            Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Picker.Triggers>
+                </Picker>
+
+                <Grid
+                    Padding="0"
+                    Margin="0"
+                    RowSpacing="0"
+                    ColumnSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Status -->
+                    <Label
+                        TextColor="Gray"
+                        VerticalOptions="End"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Status:"
+                        FontSize="Medium"/>
+                    <Picker
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        ItemsSource="{Binding Statuses}"
+                        SelectedIndex="{Binding NodeStatusId}"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small">
+                        <Picker.Triggers>
+                            <DataTrigger
+                                TargetType="Picker"
+                                Binding="{Binding IsEditable}"
+                                Value="False">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Picker.Triggers>
+                    </Picker>
+
+                    <!-- Priority -->
+                    <Label
+                        TextColor="Gray"
+                        VerticalOptions="End"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="Priority:"
+                        FontSize="Medium"/>
+                    <Picker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Priorities}"
+                        SelectedIndex="{Binding PriorityId}"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small">
+                        <Picker.Triggers>
+                            <DataTrigger
+                                TargetType="Picker"
+                                Binding="{Binding IsEditable}"
+                                Value="False">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Picker.Triggers>
+                    </Picker>
+
+                    <!-- Begin date -->
+                    <Label
+                        TextColor="Gray"
+                        VerticalOptions="End"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Text="Begin date:"
+                        FontSize="Medium"/>
+                    <DatePicker
+                        MaximumDate="{Binding MaxDate}"
+                        MinimumDate="{Binding MinDate}"
+                        Date="{Binding BeginDate}"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small">
+                        <DatePicker.Triggers>
+                            <DataTrigger
+                                TargetType="DatePicker"
+                                Binding="{Binding IsEditable}"
+                                Value="False">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </DatePicker.Triggers>
+                    </DatePicker>
+
+                    <!-- End date -->
+                    <Label
+                        TextColor="Gray"
+                        VerticalOptions="End"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="End date:"
+                        FontSize="Medium"/>
+                    <DatePicker
+                        MaximumDate="{Binding MaxDate}"
+                        MinimumDate="{Binding MinDate}"
+                        Date="{Binding EndDate}"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small">
+                        <DatePicker.Triggers>
+                            <DataTrigger
+                                TargetType="DatePicker"
+                                Binding="{Binding IsEditable}"
+                                Value="False">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </DatePicker.Triggers>
+                    </DatePicker>
+                </Grid>
+
+                <Label
+                    TextColor="Gray"
+                    Margin="0,10,0,0"
+                    Text="Assigned to:"
+                    FontSize="Medium"/>
+                <Picker
+                    ItemsSource="{Binding Employees}"
+                    SelectedIndex="{Binding AssignedEmployeeId}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small">
+                    <Picker.Triggers>
+                        <DataTrigger
+                            TargetType="Picker"
+                            Binding="{Binding IsEditable}"
+                            Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Picker.Triggers>
+                </Picker>
+
+                <StackLayout
+                    Margin="0,20,0,0"
+                    Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center"
+                        TextColor="Gray"
+                        Text="Child Nodes:"
+                        FontSize="Medium"/>
+                    <Button
+                        Padding="14,10"
+                        BackgroundColor="Orange"
+                        TextColor="White"
+                        Text="Add child"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Command="{Binding AddChildCommand}">
+                        <Button.Triggers>
+                            <DataTrigger
+                                TargetType="Button"
+                                Binding="{Binding IsEditable}"
+                                Value="False">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackLayout>
+
+                <!-- Child Nodes-->
+                <StackLayout
+                    BindableLayout.ItemsSource="{Binding ChildNodes}"
+                    Orientation="Vertical">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout
+                                Orientation="Horizontal">
+                                <Picker
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    SelectedItem="{Binding .}"
+                                    ItemDisplayBinding="{Binding Title}"
+                                    ItemsSource="{Binding Path=BindingContext.PosibleChildNodes,Source={x:Reference root}}"
+                                    FontSize="Small"/>
+                                <Button
+                                    Padding="14,10"
+                                    BackgroundColor="IndianRed"
+                                    TextColor="White"
+                                    Text="Delete"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center"
+                                    Command="{Binding Path=BindingContext.DeleteChildNodeCommand,Source={x:Reference root}}" CommandParameter="{Binding .}">
+                                    <Button.Triggers>
+                                        <DataTrigger
+                                            TargetType="Button"
+                                            Binding="{Binding Path=BindingContext.IsEditable,Source={x:Reference root}}"
+                                            Value="False">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
         <StackLayout
-            Orientation="Horizontal">
-            <Label
-                Text="Project:"
-                FontSize="Large"/>
-            <Label
-                Text="{Binding ProjectName}"
-                FontSize="Large"/>
+                Margin="0,20,0,0"
+                Grid.Row="2"
+                VerticalOptions="EndAndExpand">
+            <Button
+                HeightRequest="55"
+                FontSize="Medium"
+                BackgroundColor="IndianRed"
+                TextColor="White"
+                Text="Delete"
+                IsVisible="{Binding NavigationArgs.SelectedNodeModel, Converter={StaticResource NullableToVisibilityConverter}}"
+                Command="{Binding DeleteNodeModelCommand}"/>
+            <Button
+                HeightRequest="55"
+                FontSize="Medium"
+                BackgroundColor="Gray"
+                TextColor="White"
+                Text="Save"
+                Command="{Binding SaveEditCommand}">
+                <Button.Triggers>
+                    <DataTrigger
+                        TargetType="Button"
+                        Binding="{Binding IsEditable}"
+                        Value="False">
+                        <Setter Property="Text" Value="Edit" />
+                    </DataTrigger>
+                    <DataTrigger
+                        TargetType="Button"
+                        Binding="{Binding IsEditable}"
+                        Value="True">
+                        <Setter Property="Text" Value="Save" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </StackLayout>
-        <StackLayout
-            Orientation="Horizontal">
-            <Label
-                Text="Name:"
-                FontSize="Medium"/>
-            <Label
-                Text="{Binding NodeName}"
-                FontSize="Small"/>
-        </StackLayout>
-        <Label
-                Text="Description:"
-                FontSize="Medium"/>
-        <StackLayout
-            Orientation="Horizontal">
-            
-            <Label
-                Text="{Binding NodeDescription}"
-                FontSize="Small"/>
-        </StackLayout>
-        <StackLayout
-            Orientation="Horizontal">
-            <Label
-                Text="Status:"
-                FontSize="Medium"/>
-            <Label
-                Text="{Binding NodeStatus}"
-                FontSize="Small"/>
-        </StackLayout>
-        <StackLayout
-            Orientation="Horizontal">
-            <Label
-                Text="NodeType:"
-                FontSize="Medium"/>
-            <Label
-                Text="{Binding NodeType}"
-                FontSize="Small"/>
-        </StackLayout>
-        <Button
-            BackgroundColor="Gray"
-            TextColor="White"
-            Text="Back"
-            Command="{Binding BackCommand}"/>
-    </StackLayout>
+    </Grid>
 </pages:BasePage>

@@ -6,6 +6,10 @@ using Theta.ViewModels;
 using Theta.Constants;
 using Theta.Interfaces;
 using Theta.Database;
+using Theta.Pages.PopupPages;
+using Theta.ViewModels.PopupViewModels;
+using Rg.Plugins.Popup.Services;
+using Acr.UserDialogs;
 
 namespace Theta
 {
@@ -18,17 +22,20 @@ namespace Theta
         protected override void OnInitialized()
         {
             InitializeComponent();
+
             NavigationService.NavigateAsync(PageNames.BoardPage);
 
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterInstance(UserDialogs.Instance);
+            containerRegistry.RegisterInstance(PopupNavigation.Instance);
 
             containerRegistry.RegisterSingleton<INodeDatabase, NodeDatabase>();
 
             containerRegistry.RegisterForNavigation<BoardPage, BoardPageViewModel>();
+            containerRegistry.RegisterForNavigation<MenuPopupPage, MenuPopupPageViewModel>();
             containerRegistry.RegisterForNavigation<NodeDetailsPage, NodeDetailsPageViewModel>();
-            containerRegistry.RegisterForNavigation<NodeCreationPage, NodeCreationPageViewModel>();
         }
 
         #endregion

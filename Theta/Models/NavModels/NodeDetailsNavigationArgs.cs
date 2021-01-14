@@ -1,9 +1,9 @@
 ﻿using System;
 namespace Theta.Models.NavModels
 {
-    public class BoardNavigationArgs
+    public class NodeDetailsNavigationArgs
     {
-        public NodeModel SelectedNodeModel { get; set; } = new NodeModel();
+        public NodeModel SelectedNodeModel { get; set; }
 
         public Action UpdatePreviousSecltion { get; set; }
     }

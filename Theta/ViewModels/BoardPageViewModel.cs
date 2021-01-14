@@ -54,8 +54,20 @@ namespace Theta.ViewModels
 
         public ICommand NodeCreationCommad => new Command(async () =>
         {
-            await navigationService.NavigateAsync(PageNames.NodeCreationPage, CreateParameters(new BoardNavigationArgs
+            await navigationService.NavigateAsync(PageNames.NodeDetailsPage, CreateParameters(new NodeDetailsNavigationArgs
             {
+                UpdatePreviousSecltion = async () =>
+                {
+                    await InitNodesCollection();
+                },
+            }), null, false);
+        });
+
+        public ICommand NodeDetailsCommad => new Command<NodeModel>(async (node) =>
+        {
+            await navigationService.NavigateAsync(PageNames.NodeDetailsPage, CreateParameters(new NodeDetailsNavigationArgs
+            {
+                SelectedNodeModel = node,
                 UpdatePreviousSecltion = async () =>
                 {
                     await InitNodesCollection();
@@ -68,12 +80,7 @@ namespace Theta.ViewModels
             await navigationService.NavigateAsync(PageNames.BoardPage, CreateParameters(new BoardNavigationArgs
             {
                 SelectedNodeModel = node,
-            }));
-        });
-
-        public ICommand NodeDetailsCommad => new Command<NodeModel>(async (node) =>
-        {
-            await navigationService.NavigateAsync(PageNames.NodeDetailsPage, CreateParameters(node));
+            }), null, false);
         });
 
         public ICommand NodesCollectionFilterCommad => new Command(() =>
@@ -97,7 +104,7 @@ namespace Theta.ViewModels
                 }
                 else
                 {
-                    var allNodes = await _nodeDatabase.GetNodesByParentId(NavigatedNodeModel.SelectedNodeModel.LocalId.Value);
+                    var allNodes = await _nodeDatabase.GetNodesByExpression(x => x.ParentId == NavigatedNodeModel.SelectedNodeModel.LocalId.Value);
                     BoardNodes = new ObservableCollection<NodeModel>(allNodes);
                 }
             }

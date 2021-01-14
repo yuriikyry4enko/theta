@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Theta.Interfaces;
 using Theta.Models;
@@ -17,7 +18,10 @@ namespace Theta.Database
                 var databaseConnection = await GetDatabaseConnection<NodeDatabaseModel>().ConfigureAwait(false);
                 var nodeDatabaseModel = NodeDatabaseModel.ToNodeDatabaseModel(nodeModel);
 
-                await AttemptAndRetry(() => databaseConnection.InsertAsync(nodeDatabaseModel)).ConfigureAwait(false);
+                if(nodeModel.LocalId == null)
+                    await AttemptAndRetry(() => databaseConnection.InsertAsync(nodeDatabaseModel)).ConfigureAwait(false);
+                else
+                    await AttemptAndRetry(() => databaseConnection.UpdateAsync(nodeDatabaseModel)).ConfigureAwait(false);
             }
             catch(Exception ex)
             {
@@ -65,14 +69,14 @@ namespace Theta.Database
             return null;
         }
 
-        public async Task<List<NodeModel>> GetNodesByParentId(int parentId)
+        public async Task<List<NodeModel>> GetNodesByExpression(Expression<Func<NodeDatabaseModel, bool>> predExpr)
         {
             try
             {
                 List<NodeModel> allNodes = new List<NodeModel>();
 
                 var nodeDatabaseConnection = await GetDatabaseConnection<NodeDatabaseModel>().ConfigureAwait(false);
-                var allNodesDatabaseModels = await AttemptAndRetry(() => nodeDatabaseConnection.Table<NodeDatabaseModel>().Where(x => x.ParentId != null && x.ParentId == parentId).ToListAsync()).ConfigureAwait(false);
+                var allNodesDatabaseModels = await AttemptAndRetry(() => nodeDatabaseConnection.Table<NodeDatabaseModel>().Where(predExpr).ToListAsync()).ConfigureAwait(false);
 
                 foreach (var nodeDatabaseModel in allNodesDatabaseModels)
                 {
@@ -86,6 +90,23 @@ namespace Theta.Database
                 Debug.WriteLine(ex);
             }
 
+
+            return null;
+        }
+
+        public async Task<NodeModel> GetNodeByExpression(Expression<Func<NodeDatabaseModel, bool>> predExpr)
+        {
+            try
+            {
+                var nodeDatabaseConnection = await GetDatabaseConnection<NodeDatabaseModel>().ConfigureAwait(false);
+                var nodeDatabaseModels = await AttemptAndRetry(() => nodeDatabaseConnection.GetAsync<NodeDatabaseModel>(predExpr)).ConfigureAwait(false);
+
+                return NodeDatabaseModel.ToNodeModel(nodeDatabaseModels);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
 
             return null;
         }
