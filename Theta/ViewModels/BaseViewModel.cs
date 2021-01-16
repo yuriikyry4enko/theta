@@ -22,6 +22,8 @@ namespace Theta.ViewModels
 
         public virtual ICommand MenuCommand => new Command(async () => { await navigationService.NavigateAsync(PageNames.MenuPopupPage, null, null, animated: false); });
 
+        public virtual ICommand FilterCommand => new Command(async () => { await navigationService.NavigateAsync(PageNames.FilterPopupPage, null, null, animated: false); });
+
         protected const string Params = "params";
 
         protected readonly INavigationService navigationService;

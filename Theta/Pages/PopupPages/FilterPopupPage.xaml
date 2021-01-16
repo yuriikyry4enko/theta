@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rg:PopupPage
+    xmlns:rg="http://rotorgames.com"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Theta.Pages.PopupPages.FilterPopupPage">
+    <Grid
+        VerticalOptions="FillAndExpand"
+        HorizontalOptions="FillAndExpand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.65*"/>
+            <ColumnDefinition Width="0.35*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            x:Name="greyBoxView"
+            Grid.Column="0"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="#1F2325">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Status -->
+            <StackLayout
+                VerticalOptions="Start"
+                Margin="25,10"
+                Spacing="15"
+                Grid.Row="1">
+                <Label
+                    TextColor="White"
+                    VerticalOptions="End"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Status:"
+                    FontSize="Medium"/>
+                <Picker
+                    ItemsSource="{Binding Statuses}"
+                    SelectedIndex="{Binding NodeStatusFilterId}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small">
+                </Picker>
+
+                <!-- Priority -->
+                <Label
+                    TextColor="White"
+                    VerticalOptions="End"
+                    Text="Priority:"
+                    FontSize="Medium"/>
+                <Picker
+                    ItemsSource="{Binding Priorities}"
+                    SelectedIndex="{Binding PriorityId}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small">
+                    <Picker.Triggers>
+                        <DataTrigger
+                            TargetType="Picker"
+                            Binding="{Binding IsEditable}"
+                            Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Picker.Triggers>
+                </Picker>
+            </StackLayout>
+
+            <StackLayout
+                VerticalOptions="EndAndExpand"
+                Grid.Row="2"
+                Margin="10,0,10,45">
+                <Button
+                    HeightRequest="55"
+                    FontSize="Medium"
+                    BackgroundColor="IndianRed"
+                    TextColor="White"
+                    Text="Apply"
+                    Command="{Binding ApplyFilterCommand}"/>
+                <Button
+                    HeightRequest="55"
+                    FontSize="Medium"
+                    BackgroundColor="LightSeaGreen"
+                    TextColor="White"
+                    Text="Go Back to Root"
+                    Command="{Binding GoBackToRootCommand}"/>
+            </StackLayout>
+            
+        </Grid>
+        <!--<BoxView
+            x:Name="greyBoxView"
+            Grid.Column="0"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="#1F2325"/>-->
+        <BoxView
+            Grid.Column="1"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="Transparent">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding BackCommand}"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+    </Grid>
+</rg:PopupPage>

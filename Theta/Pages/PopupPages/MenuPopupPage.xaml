@@ -3,6 +3,7 @@
     xmlns:rg="http://rotorgames.com"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Theta.Controls"
     x:Class="Theta.Pages.PopupPages.MenuPopupPage">
     <Grid
         VerticalOptions="FillAndExpand"
@@ -11,12 +12,160 @@
             <ColumnDefinition Width="0.35*"/>
             <ColumnDefinition Width="0.65*"/>
         </Grid.ColumnDefinitions>
-        <BoxView
+        <Grid
             x:Name="greyBoxView"
             Grid.Column="1"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
-            BackgroundColor="#1F2325"/>
+            BackgroundColor="#1F2325">  
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="0.25*"/>
+            </Grid.RowDefinitions>
+            <StackLayout
+                VerticalOptions="Start"
+                Grid.Row="1">
+                <StackLayout
+                    Spacing="15"
+                    HorizontalOptions="FillAndExpand"
+                    Padding="25,20"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Button
+                        FontSize="Large"
+                        TextColor="White"
+                        Text="Tree View"/>
+                </StackLayout>
+                <StackLayout
+                    Spacing="15"
+                    Padding="25,20"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Button
+                        VerticalOptions="Center"
+                        FontSize="Large"
+                        TextColor="White"
+                        Text="Filter List"/>
+                </StackLayout>
+                <StackLayout
+                    Spacing="15"
+                    Padding="25,20"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Button
+                        FontSize="Large"
+                        TextColor="White"
+                        Text="Notification"/>
+                </StackLayout>
+                <StackLayout
+                    Spacing="15"
+                    Padding="25,20"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Button
+                        FontSize="Large"
+                        TextColor="White"
+                        Text="Settings"/>
+                </StackLayout>
+                <StackLayout
+                    Spacing="15"
+                    Padding="25,20"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Button
+                        FontSize="Large"
+                        TextColor="White"
+                        Text="About"/>
+                </StackLayout>
+            </StackLayout>
+            <Label
+                Padding="25,30"
+                Grid.Row="2"
+                VerticalOptions="End"
+                FontSize="Medium"
+                TextColor="White"
+                Text="version: 1.0.1"/>
+        </Grid>
         <BoxView
             Grid.Column="0"
             VerticalOptions="FillAndExpand"

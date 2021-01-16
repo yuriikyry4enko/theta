@@ -225,26 +225,44 @@
         </CollectionView>
 
         <!-- Add node button -->
-        <controls:Circle
+        <StackLayout
+            Spacing="20"
             Grid.Row="2"
-            VerticalOptions="End"
-            HorizontalOptions="End"
-            Padding="0"
-            HeightRequest="55"
             Margin="0,0,23,35"
-            WidthRequest="55"
-            Color="DarkOliveGreen">
-            <controls:TintedCachedImage
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                WidthRequest="20"
-                Source="{x:Static resources:Images.Plus}"
-                TintColor="White"
-                HeightRequest="20"/>
-                <controls:Circle.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NodeCreationCommad}"/>
-                </controls:Circle.GestureRecognizers>
-        </controls:Circle>
+            VerticalOptions="End"
+            HorizontalOptions="End">
+            <controls:Circle
+                Padding="0"
+                HeightRequest="55"
+                WidthRequest="55"
+                Color="DarkOliveGreen">
+                <controls:TintedCachedImage
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="20"
+                    TintColor="White"
+                    HeightRequest="20"/>
+                    <controls:Circle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                    </controls:Circle.GestureRecognizers>
+            </controls:Circle>
+            <controls:Circle
+                Padding="0"
+                HeightRequest="55"
+                WidthRequest="55"
+                Color="DarkOliveGreen">
+                <controls:TintedCachedImage
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="20"
+                    Source="{x:Static resources:Images.Plus}"
+                    TintColor="White"
+                    HeightRequest="20"/>
+                    <controls:Circle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NodeCreationCommad}"/>
+                    </controls:Circle.GestureRecognizers>
+            </controls:Circle>
+        </StackLayout>
 
     </Grid>
 </pages:BasePage>

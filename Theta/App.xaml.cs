@@ -35,6 +35,7 @@ namespace Theta
 
             containerRegistry.RegisterForNavigation<BoardPage, BoardPageViewModel>();
             containerRegistry.RegisterForNavigation<MenuPopupPage, MenuPopupPageViewModel>();
+            containerRegistry.RegisterForNavigation<FilterPopupPage, FilterPopupPageViewModel>();
             containerRegistry.RegisterForNavigation<NodeDetailsPage, NodeDetailsPageViewModel>();
         }
 
