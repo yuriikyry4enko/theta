@@ -62,6 +62,13 @@ namespace Theta.ViewModels
             set => SetProperty(ref _nodeTypeId, value);
         }
 
+        private string _nodeType;
+        public string NodeType
+        {
+            get => _nodeType;
+            set => SetProperty(ref _nodeType, value);
+        }
+
         private int? _priorityId;
         public int? PriorityId
         {
@@ -97,20 +104,34 @@ namespace Theta.ViewModels
             set => SetProperty(ref _endDate, value);
         }
 
-        private NodeModel _parentModel = new NodeModel();
+        private NodeModel _parentModel;
         public NodeModel ParentModel
         {
             get => _parentModel;
-            set => SetProperty(ref _parentModel, value);
+            set
+            {
+                SetProperty(ref _parentModel, value);
+
+                if (ParentModel != null)
+                {
+                    NodeTypes = DictionariesConstants.NodeTypes.Where(x => x.Key > ParentModel?.NodeType).Select(x => x.Value).ToList();
+
+                    var tempNodeType = (string)NodeType?.Clone();
+                    RaisePropertyChanged(nameof(NodeTypes));
+
+                    NodeTypeId = NodeTypes.IndexOf(tempNodeType);
+                    NodeType = tempNodeType;
+                }
+            }
         }
 
         public DateTime MinDate { get; } = DateTime.Now;
         public DateTime MaxDate { get; } = DateTime.Now.AddMonths(12);
 
-        public List<string> NodeTypes { get; } = DictionariesConstants.NodeTypes.Values.ToList();
         public List<string> Statuses { get; } = DictionariesConstants.Statuses.Values.ToList();
         public List<string> Priorities { get; } = DictionariesConstants.Priorities.Values.ToList();
         public List<string> Employees { get; } = DictionariesConstants.Employees.Values.ToList();
+        public List<string> NodeTypes { get; set; } = DictionariesConstants.NodeTypes.Values.ToList();
 
         private ObservableCollection<NodeModel> _posibleChildNodes = new ObservableCollection<NodeModel>();
         public ObservableCollection<NodeModel> PosibleChildNodes
@@ -193,7 +214,7 @@ namespace Theta.ViewModels
                             Description = NodeDescription,
                             Status = NodeStatusId,
                             Priority = PriorityId,
-                            NodeType = NodeTypeId,
+                            NodeType = DictionariesConstants.NodeTypes.FirstOrDefault(x => x.Value == NodeType).Key,
                             AssignedEmployeeId = AssignedEmployeeId,
                             ParentId = ParentModel?.LocalId,
                             BeginDate = BeginDate,
@@ -207,7 +228,7 @@ namespace Theta.ViewModels
                         NavigationArgs.SelectedNodeModel.Description = NodeDescription;
                         NavigationArgs.SelectedNodeModel.Status = NodeStatusId;
                         NavigationArgs.SelectedNodeModel.Priority = PriorityId;
-                        NavigationArgs.SelectedNodeModel.NodeType = NodeTypeId;
+                        NavigationArgs.SelectedNodeModel.NodeType = DictionariesConstants.NodeTypes.FirstOrDefault(x => x.Value == NodeType).Key;
                         NavigationArgs.SelectedNodeModel.AssignedEmployeeId = AssignedEmployeeId;
                         NavigationArgs.SelectedNodeModel.ParentId = ParentModel?.LocalId;
                         NavigationArgs.SelectedNodeModel.BeginDate = BeginDate;
@@ -244,8 +265,6 @@ namespace Theta.ViewModels
         public ICommand SelectedIndexNodeTypeChangedCommad => new Command(async () =>
         {
             await GetPosibleChildNodes();
-
-            await GetPosibleParentsNodes();
         });
 
         private async Task InitNodeDetail()
@@ -259,6 +278,7 @@ namespace Theta.ViewModels
                     NodeDescription = NavigationArgs.SelectedNodeModel.Description;
                     NodeStatusId = NavigationArgs.SelectedNodeModel.Status;
                     NodeTypeId = NavigationArgs.SelectedNodeModel.NodeType;
+                    NodeType = NodeTypeId != null ? DictionariesConstants.NodeTypes[NodeTypeId.Value] : null;
                     PriorityId = NavigationArgs.SelectedNodeModel.Priority;
                     AssignedEmployeeId = NavigationArgs.SelectedNodeModel.AssignedEmployeeId;
                     BeginDate = NavigationArgs.SelectedNodeModel.BeginDate;
@@ -271,13 +291,17 @@ namespace Theta.ViewModels
 
                 await GetPosibleParentsNodes();
 
-                await GetPosibleChildNodes(true);
+                //await GetPosibleChildNodes(true);
 
-                if (NavigationArgs.SelectedNodeModel?.ParentId != null)
+
+                if(NavigationArgs.ParentNodeModel != null)
+                {
+                    ParentModel = PosibleParentNodes.FirstOrDefault(x => x.LocalId == NavigationArgs.ParentNodeModel.LocalId);
+                }
+                else if (NavigationArgs.SelectedNodeModel?.ParentId != null)
                 {
                     ParentModel = PosibleParentNodes.FirstOrDefault(x => x.LocalId == NavigationArgs.SelectedNodeModel.ParentId);
                 }
-
             }
             catch(Exception ex)
             {
@@ -289,11 +313,15 @@ namespace Theta.ViewModels
         {
             try
             {
-                PosibleChildNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByExpression(
-                   NavigationArgs?.SelectedNodeModel?.LocalId == null ?
-                       x => x.NodeType > NodeTypeId :
-                       x => x.LocalId != NavigationArgs.SelectedNodeModel.LocalId && x.NodeType > NodeTypeId
-                ));
+                if (!string.IsNullOrEmpty(NodeType))
+                {
+                    var nodeTypeKey = DictionariesConstants.NodeTypes.FirstOrDefault(x => x.Value == NodeType).Key;
+                    PosibleChildNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByExpression(
+                        NavigationArgs?.SelectedNodeModel?.LocalId == null ?
+                           x => x.NodeType > nodeTypeKey :
+                           x => x.LocalId != NavigationArgs.SelectedNodeModel.LocalId && x.NodeType > nodeTypeKey
+                    ));
+                }
 
                 if (initEmptyChildList)
                 {
@@ -316,14 +344,7 @@ namespace Theta.ViewModels
         {
             try
             {
-                PosibleParentNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByExpression(
-                    NavigationArgs?.SelectedNodeModel?.LocalId == null ?
-                        x => x.NodeType < NodeTypeId :
-                        x => x.NodeType < NodeTypeId && x.LocalId != NavigationArgs.SelectedNodeModel.LocalId
-                ));
-
-                if (PosibleParentNodes.Count() == 0)
-                    ParentModel = null;
+                PosibleParentNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodes());
             }
             catch (Exception ex)
             {

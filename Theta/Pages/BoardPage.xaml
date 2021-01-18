@@ -91,7 +91,7 @@
             HeightRequest="55"
             Margin="0,42,23,0"
             WidthRequest="55"
-            Color="DarkGreen">
+            Color="DarkGreen">  
             <controls:TintedCachedImage
                 VerticalOptions="Center"
                 HorizontalOptions="Center"

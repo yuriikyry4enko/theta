@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Navigation;
@@ -68,6 +69,7 @@ namespace Theta.ViewModels
         {
             await navigationService.NavigateAsync(PageNames.NodeDetailsPage, CreateParameters(new NodeDetailsNavigationArgs
             {
+                ParentNodeModel = NavigatedNodeModel?.SelectedNodeModel,
                 UpdatePreviousSecltion = async () =>
                 {
                     await InitNodesCollection();
@@ -79,6 +81,7 @@ namespace Theta.ViewModels
         {
             await navigationService.NavigateAsync(PageNames.NodeDetailsPage, CreateParameters(new NodeDetailsNavigationArgs
             {
+                ParentNodeModel = NavigatedNodeModel?.SelectedNodeModel,
                 SelectedNodeModel = node,
                 UpdatePreviousSecltion = async () =>
                 {
@@ -103,38 +106,40 @@ namespace Theta.ViewModels
             {
                 BoardNodes.Clear();
 
-                List<NodeModel> allNodes = new List<NodeModel>();
-
-                if (NavigatedNodeModel == null)
-                {
-                    if (filterOptionModel?.Status == null)
-                    {
-                        allNodes = (await _nodeDatabase.GetNodes()).Where(x => x.ParentId == null).ToList();
-                    }
-                    else
-                    {
-                        allNodes = (await _nodeDatabase.GetNodes()).Where(x => x.ParentId == null).Where(x => x.Status == filterOptionModel.Status).ToList();
-                    }
-                }
-                else
-                {
-                    if (filterOptionModel?.Status == null)
-                    {
-                        allNodes = await _nodeDatabase.GetNodesByExpression(x => x.ParentId == NavigatedNodeModel.SelectedNodeModel.LocalId.Value);
-                    }
-                    else
-                    {
-                        allNodes = (await _nodeDatabase.GetNodesByExpression(x => x.ParentId == NavigatedNodeModel.SelectedNodeModel.LocalId.Value)).
-                                       Where(x => x.Status == filterOptionModel.Status).ToList();
-                    }
-                }
-
-                BoardNodes = new ObservableCollection<NodeModel>(allNodes);
+                BoardNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByFilterOptions(InitFilterOptionsList(filterOptionModel)));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+        }
+
+        private List<string> InitFilterOptionsList(FilterOptionModel filterOptionModel)
+        {
+            try
+            {
+                List<string> filterOptions = new List<string>();
+
+                if (filterOptionModel != null)
+                {
+                    foreach (PropertyInfo propertyInfo in filterOptionModel.GetType()?.GetProperties())
+                    {
+                        var value = propertyInfo.GetValue(filterOptionModel, null);
+                        if (value != null)
+                            filterOptions.Add($"{propertyInfo.Name} = {value}");
+                    }
+                }
+
+                filterOptions.Add($"{nameof(NavigatedNodeModel.SelectedNodeModel.ParentId)} {(NavigatedNodeModel?.SelectedNodeModel?.LocalId == null ? "IS NULL" : $"= {NavigatedNodeModel?.SelectedNodeModel?.LocalId.ToString()}")}");
+                
+                return filterOptions;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            return null;
         }
     }
 }

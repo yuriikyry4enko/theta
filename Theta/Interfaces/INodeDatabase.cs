@@ -14,5 +14,6 @@ namespace Theta.Interfaces
         Task<NodeModel> GetNodeByExpression(Expression<Func<NodeDatabaseModel, bool>> predExpr);
         Task<List<NodeModel>> GetNodes();
         Task<List<NodeModel>> GetNodesByExpression(Expression<Func<NodeDatabaseModel, bool>> predExpr);
+        Task<List<NodeModel>> GetNodesByFilterOptions(List<string> filterOptions);
     }
 }

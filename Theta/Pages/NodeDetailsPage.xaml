@@ -101,7 +101,9 @@
                     FontSize="Medium"/>
                 <Picker
                     ItemsSource="{Binding NodeTypes}"
-                    SelectedIndex="{Binding NodeTypeId}"
+                    SelectedIndex="{Binding NodeTypeId, Mode=TwoWay}"
+                    SelectedItem="{Binding NodeType, Mode=TwoWay}"
+
                     HorizontalOptions="FillAndExpand"
                     FontSize="Small">
                     <Picker.Triggers>

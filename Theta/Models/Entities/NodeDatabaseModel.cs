@@ -3,6 +3,7 @@ using SQLite;
 
 namespace Theta.Models.Entities
 {
+    [Table("NodeDatabaseModel")]
     public class NodeDatabaseModel 
     {
         [PrimaryKey]

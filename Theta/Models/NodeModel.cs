@@ -4,7 +4,7 @@ using Theta.Constants;
 
 namespace Theta.Models
 {
-    public class NodeModel
+    public class NodeModel : ICloneable
     {
         public int? LocalId { get; set; }
 
@@ -40,6 +40,11 @@ namespace Theta.Models
                 else
                     return string.Empty;
             }
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

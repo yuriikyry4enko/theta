@@ -19,7 +19,7 @@
             HorizontalOptions="FillAndExpand"
             BackgroundColor="#1F2325">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -41,8 +41,7 @@
                     ItemsSource="{Binding Statuses}"
                     SelectedIndex="{Binding NodeStatusFilterId}"
                     HorizontalOptions="FillAndExpand"
-                    FontSize="Small">
-                </Picker>
+                    FontSize="Small"/>
 
                 <!-- Priority -->
                 <Label
@@ -54,16 +53,29 @@
                     ItemsSource="{Binding Priorities}"
                     SelectedIndex="{Binding PriorityId}"
                     HorizontalOptions="FillAndExpand"
-                    FontSize="Small">
-                    <Picker.Triggers>
-                        <DataTrigger
-                            TargetType="Picker"
-                            Binding="{Binding IsEditable}"
-                            Value="False">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Picker.Triggers>
-                </Picker>
+                    FontSize="Small"/>
+
+                <Label
+                    TextColor="White"
+                    VerticalOptions="End"
+                    Text="Type:"
+                    FontSize="Medium"/>
+                 <Picker
+                    ItemsSource="{Binding NodeTypes}"
+                    SelectedIndex="{Binding NodeTypeId, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small"/>
+
+                <Label
+                    TextColor="White"
+                    VerticalOptions="End"
+                    Text="Assigned to:"
+                    FontSize="Medium"/>
+                <Picker
+                    ItemsSource="{Binding Employees}"
+                    SelectedIndex="{Binding AssignedEmployeeId}"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="Small"/>
             </StackLayout>
 
             <StackLayout
