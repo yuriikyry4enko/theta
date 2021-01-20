@@ -47,10 +47,13 @@
                                 <TapGestureRecognizer Command="{Binding FilterCommand}"/>
                             </controls:Circle.GestureRecognizers>-->
                     </controls:Circle>
-                    <Button
+                    <Label
                         FontSize="Large"
                         TextColor="White"
-                        Text="Tree View"/>
+                        Text="Tree"/>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="Tree"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <StackLayout
                     Spacing="15"
@@ -73,11 +76,14 @@
                                 <TapGestureRecognizer Command="{Binding FilterCommand}"/>
                             </controls:Circle.GestureRecognizers>-->
                     </controls:Circle>
-                    <Button
+                    <Label
                         VerticalOptions="Center"
                         FontSize="Large"
                         TextColor="White"
-                        Text="Filter List"/>
+                        Text="Tasks"/>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="Tasks"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <StackLayout
                     Spacing="15"
@@ -100,7 +106,37 @@
                                 <TapGestureRecognizer Command="{Binding FilterCommand}"/>
                             </controls:Circle.GestureRecognizers>-->
                     </controls:Circle>
-                    <Button
+                    <Label
+                        VerticalOptions="Center"
+                        FontSize="Large"
+                        TextColor="White"
+                        Text="All Nodes"/>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="All Nodes"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout
+                    Spacing="15"
+                    Padding="25,20"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Label
                         FontSize="Large"
                         TextColor="White"
                         Text="Notification"/>
@@ -126,7 +162,7 @@
                                 <TapGestureRecognizer Command="{Binding FilterCommand}"/>
                             </controls:Circle.GestureRecognizers>-->
                     </controls:Circle>
-                    <Button
+                    <Label
                         FontSize="Large"
                         TextColor="White"
                         Text="Settings"/>
@@ -152,7 +188,7 @@
                                 <TapGestureRecognizer Command="{Binding FilterCommand}"/>
                             </controls:Circle.GestureRecognizers>-->
                     </controls:Circle>
-                    <Button
+                    <Label
                         FontSize="Large"
                         TextColor="White"
                         Text="About"/>

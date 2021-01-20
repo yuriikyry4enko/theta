@@ -117,7 +117,6 @@ namespace Theta.Database
                 Debug.WriteLine(ex);
             }
 
-
             return null;
         }
 
@@ -141,7 +140,6 @@ namespace Theta.Database
             {
                 Debug.WriteLine(ex);
             }
-
 
             return null;
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,15 +14,15 @@ using Xamarin.Forms;
 
 namespace Theta.ViewModels
 {
-    class BoardPageViewModel : BaseViewModel
+    class AllNodesPageViewModel : BaseViewModel
     {
         private readonly INodeDatabase _nodeDatabase;
 
-        private ObservableCollection<NodeModel> _boardNodes = new ObservableCollection<NodeModel>();
-        public ObservableCollection<NodeModel> BoardNodes
+        private ObservableCollection<NodeModel> _allNodes = new ObservableCollection<NodeModel>();
+        public ObservableCollection<NodeModel> AllNodes
         {
-            get => _boardNodes;
-            set => SetProperty(ref _boardNodes, value);
+            get => _allNodes;
+            set => SetProperty(ref _allNodes, value);
         }
 
         private BoardNavigationArgs _navigatedNodeModel = new BoardNavigationArgs();
@@ -33,9 +32,7 @@ namespace Theta.ViewModels
             set => SetProperty(ref _navigatedNodeModel, value);
         }
 
-        public FilterOptionModel CurrentFilterOptions { get; set; }
-
-        public BoardPageViewModel(
+        public AllNodesPageViewModel(
             INavigationService navigationService,
             INodeDatabase nodeDatabase) : base(navigationService)
         {
@@ -48,24 +45,17 @@ namespace Theta.ViewModels
 
             if (parameters.GetNavigationMode() != NavigationMode.Back)
             {
-                NavigatedNodeModel = GetParameters<BoardNavigationArgs>(parameters);
-
                 await InitNodesCollection();
             }
         }
-
-        #region Commands
 
         public override ICommand FilterCommand => new Command(async () =>
         {
             await navigationService.NavigateAsync(PageNames.FilterPopupPage, CreateParameters(new FilterPopupNavigationArgs
             {
-                CurrentFilterOptions = CurrentFilterOptions,
                 UpdatePreviousSecltion = async (filterOptions) =>
                 {
                     await InitNodesCollection(filterOptions);
-
-                    CurrentFilterOptions = filterOptions;
                 },
             }), null, false);
         });
@@ -103,17 +93,13 @@ namespace Theta.ViewModels
             }), null, false);
         });
 
-        #endregion
-
         private async Task InitNodesCollection(FilterOptionModel filterOptionModel = null)
-        {   
+        {
             try
             {
-                BoardNodes.Clear();
+                AllNodes.Clear();
 
-                var paramParentId = $"{nameof(NavigatedNodeModel.SelectedNodeModel.ParentId)} {(NavigatedNodeModel?.SelectedNodeModel?.LocalId == null ? "IS NULL" : $"= {NavigatedNodeModel?.SelectedNodeModel?.LocalId.ToString()}")}";
-
-                BoardNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByFilterOptions(InitFilterOptionsList(filterOptionModel, paramParentId)));
+                AllNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByFilterOptions(InitFilterOptionsList(filterOptionModel)));
             }
             catch (Exception ex)
             {

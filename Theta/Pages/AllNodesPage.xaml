@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:BasePage
+    xmlns:pages="clr-namespace:Theta.Pages"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:context="clr-namespace:ContextMenu.Views;assembly=ContextMenu"
+    xmlns:converters="clr-namespace:Theta.Converters"
+    xmlns:controls="clr-namespace:Theta.Controls"
+    xmlns:resources="clr-namespace:Theta.Resources;assembly=Theta"
+    x:Class="Theta.Pages.AllNodesPage"
+    x:Name="root">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:MenuFitWidthConverter x:Key="MenuFitWidthConverter" />
+            <converters:DictionaryKeyToValueConverter x:Key="DictionaryKeyToValueConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Parent header node-->
+        <Frame
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            HeightRequest="175"
+            Grid.Row="0"
+            Grid.RowSpan="2">
+            <Grid
+                Margin="10,45,0,0">
+                <Label
+                    x:Name="parentNodeName"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    VerticalOptions="Center"
+                    HorizontalOptions="StartAndExpand"
+                    Text="{Binding NavigatedNodeModel.SelectedNodeModel.Name}"/>
+            </Grid>
+
+            <Frame.Triggers>
+                <DataTrigger TargetType="Frame"
+                             Binding="{Binding Source={x:Reference parentNodeName}, Path=Text, TargetNullValue=''}"
+                             Value="">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Frame.Triggers>
+        </Frame>
+
+
+        <!--Back button-->
+        <controls:Circle
+            Grid.Row="0"
+            HorizontalOptions="Start"
+            VerticalOptions="Center"
+            Padding="0"
+            HeightRequest="55"
+            Margin="23,42,0,0"
+            WidthRequest="55"
+            Color="DarkGreen">
+            <controls:TintedCachedImage
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="20"
+                Source="{x:Static resources:Images.BackArrow}"
+                TintColor="White"
+                HeightRequest="20"/>
+                <controls:Circle.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}"/>
+                </controls:Circle.GestureRecognizers>
+                <controls:Circle.Triggers>
+                    <DataTrigger TargetType="ContentView"
+                                 Binding="{Binding Source={x:Reference parentNodeName}, Path=Text, TargetNullValue=''}"
+                                 Value="">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </controls:Circle.Triggers>
+        </controls:Circle>
+
+        <!--Menu-->
+        <controls:Circle
+            Grid.Row="0"
+            HorizontalOptions="End"
+            VerticalOptions="Center"
+            Padding="0"
+            HeightRequest="55"
+            Margin="0,42,23,0"
+            WidthRequest="55"
+            Color="DarkGreen">  
+            <controls:TintedCachedImage
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="20"
+                Source="{x:Static resources:Images.Menu}"
+                TintColor="White"
+                HeightRequest="20"/>
+                <controls:Circle.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding MenuCommand}"/>
+                </controls:Circle.GestureRecognizers>
+        </controls:Circle>
+
+      
+        <CollectionView
+            Grid.Row="2"
+            x:Name="NodesCollection"
+            Margin="0, 25, 0, 0"
+            SelectionMode="Single"
+            ItemsSource="{Binding AllNodes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <context:SideContextMenuView
+                        ForceCloseCommand="{Binding ForceCloseCommand}">
+                        <context:SideContextMenuView.View>
+                            <Frame
+                                Margin="15,5"
+                                Padding="20"
+                                BorderColor="LightGray" 
+                                WidthRequest="{Binding Source={x:Reference NodesCollection}, Path=Width, Converter={StaticResource MenuFitWidthConverter}, ConverterParameter='70'}">
+                                <Grid
+                                    HorizontalOptions="FillAndExpand"
+                                    Padding="0"
+                                    Margin="0"
+                                    HeightRequest="75">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+                                        FontSize="Small"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding Name}"/>
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Spacing="5"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            TextColor="LightGray"
+                                            VerticalOptions="Center"
+                                            FontSize="Small"
+                                            Text="type:"/>
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start">
+                                            <Label.Text>
+                                                <Binding Path="NodeType">
+                                                    <Binding.Converter>
+                                                        <converters:DictionaryKeyToValueConverter ConstantValue="1"/>
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label
+                                            Margin="20,0,0,0"
+                                            TextColor="LightGray"
+                                            VerticalOptions="Center"
+                                            FontSize="Small"
+                                            Text=" status:"/>
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="StartAndExpand">
+                                            <Label.Text>
+                                                <Binding Path="Status">
+                                                    <Binding.Converter>
+                                                        <converters:DictionaryKeyToValueConverter ConstantValue="2"/>
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                    </StackLayout>
+                                </Grid>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Path=BindingContext.NodeTappedCommad,Source={x:Reference root}}" CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </context:SideContextMenuView.View>
+                        <context:SideContextMenuView.ContextTemplate>
+                            <DataTemplate>
+                                <Frame Margin="0, 5"
+                                       Padding="0"
+                                       CornerRadius="10"
+                                       IsClippedToBounds="true"
+                                       BackgroundColor="Gold">
+                                    <StackLayout
+                                        Padding="10, 5"
+                                        Orientation="Horizontal"
+                                        Spacing="10"
+                                        Margin="0, 5">
+                                        <controls:TintedCachedImage
+                                            TintColor="White"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="EndAndExpand"
+                                            WidthRequest="35"
+                                            HeightRequest="35">
+                                            <controls:TintedCachedImage.GestureRecognizers>
+                                                <!--<TapGestureRecognizer
+                                                    Command="{Binding Source={x:Reference CollectionView}, Path=BindingContext.DeleteCommand}"
+                                                    CommandParameter="{Binding}"/>-->
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Path=BindingContext.NodeDetailsCommad,Source={x:Reference root}}" CommandParameter="{Binding .}"/>
+                                            </controls:TintedCachedImage.GestureRecognizers>
+                                        </controls:TintedCachedImage>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </context:SideContextMenuView.ContextTemplate>  
+                    </context:SideContextMenuView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Add node button -->
+        <StackLayout
+            Spacing="20"
+            Grid.Row="2"
+            Margin="0,0,23,35"
+            VerticalOptions="End"
+            HorizontalOptions="End">
+            <controls:Circle
+                Padding="0"
+                HeightRequest="55"
+                WidthRequest="55"
+                Color="DarkOliveGreen">
+                <controls:TintedCachedImage
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="20"
+                    TintColor="White"
+                    HeightRequest="20"/>
+                    <controls:Circle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                    </controls:Circle.GestureRecognizers>
+            </controls:Circle>
+            <controls:Circle
+                Padding="0"
+                HeightRequest="55"
+                WidthRequest="55"
+                Color="DarkOliveGreen">
+                <controls:TintedCachedImage
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="20"
+                    Source="{x:Static resources:Images.Plus}"
+                    TintColor="White"
+                    HeightRequest="20"/>
+                    <controls:Circle.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NodeCreationCommad}"/>
+                    </controls:Circle.GestureRecognizers>
+            </controls:Circle>
+        </StackLayout>
+
+    </Grid>
+</pages:BasePage>

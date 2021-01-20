@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Input;
 using Prism.AppModel;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Theta.Constants;
+using Theta.Models;
 using Xamarin.Forms;
 
 namespace Theta.ViewModels
@@ -83,6 +87,40 @@ namespace Theta.ViewModels
         public virtual void OnDisappearing()
         {
 
+        }
+
+        protected virtual List<string> InitFilterOptionsList(FilterOptionModel filterOptionModel, params string[] values)
+        {
+            try
+            {
+                List<string> filterOptions = new List<string>();
+
+                if (filterOptionModel != null)
+                {
+                    foreach (PropertyInfo propertyInfo in filterOptionModel.GetType()?.GetProperties())
+                    {
+                        var value = propertyInfo.GetValue(filterOptionModel, null);
+                        if (value != null)
+                            filterOptions.Add($"{propertyInfo.Name} = {value}");
+                    }
+                }
+
+                if(values != null && values.Length > 0)
+                {
+                    foreach(var item in values)
+                    {
+                        filterOptions.Add(item);
+                    }
+                }
+
+                return filterOptions.Count() > 0 ? filterOptions : null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            return null;
         }
     }
 }

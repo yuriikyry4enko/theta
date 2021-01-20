@@ -24,60 +24,108 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Status -->
-            <StackLayout
-                VerticalOptions="Start"
-                Margin="25,10"
-                Spacing="15"
+            <ScrollView
                 Grid.Row="1">
-                <Label
-                    TextColor="White"
-                    VerticalOptions="End"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Status:"
-                    FontSize="Medium"/>
-                <Picker
-                    ItemsSource="{Binding Statuses}"
-                    SelectedIndex="{Binding NodeStatusFilterId}"
-                    HorizontalOptions="FillAndExpand"
-                    FontSize="Small"/>
+                <StackLayout
+                    VerticalOptions="Start"
+                    Margin="25,10"
+                    Spacing="15">
+                    <Label
+                        TextColor="White"
+                         VerticalOptions="End"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Status:"
+                        FontSize="Medium"/>
+                    <Picker
+                        ItemsSource="{Binding Statuses}"
+                        SelectedIndex="{Binding NodeStatusFilterId}"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small"/>
 
-                <!-- Priority -->
-                <Label
-                    TextColor="White"
-                    VerticalOptions="End"
-                    Text="Priority:"
-                    FontSize="Medium"/>
-                <Picker
-                    ItemsSource="{Binding Priorities}"
-                    SelectedIndex="{Binding PriorityId}"
-                    HorizontalOptions="FillAndExpand"
-                    FontSize="Small"/>
+                    <!-- Priority -->
+                    <Label
+                        TextColor="White"
+                        VerticalOptions="End"
+                        Text="Priority:"
+                        FontSize="Medium"/>
+                    <Picker
+                        ItemsSource="{Binding Priorities}"
+                        SelectedIndex="{Binding PriorityId}"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small"/>
 
-                <Label
-                    TextColor="White"
-                    VerticalOptions="End"
-                    Text="Type:"
-                    FontSize="Medium"/>
-                 <Picker
-                    ItemsSource="{Binding NodeTypes}"
-                    SelectedIndex="{Binding NodeTypeId, Mode=TwoWay}"
-                    HorizontalOptions="FillAndExpand"
-                    FontSize="Small"/>
+                    <Label
+                        TextColor="White"
+                        VerticalOptions="End"
+                        Text="Type:"
+                        FontSize="Medium"/>
+                     <Picker
+                        ItemsSource="{Binding NodeTypes}"
+                        SelectedIndex="{Binding NodeTypeId, Mode=TwoWay}"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small"/>
 
-                <Label
-                    TextColor="White"
-                    VerticalOptions="End"
-                    Text="Assigned to:"
-                    FontSize="Medium"/>
-                <Picker
-                    ItemsSource="{Binding Employees}"
-                    SelectedIndex="{Binding AssignedEmployeeId}"
-                    HorizontalOptions="FillAndExpand"
-                    FontSize="Small"/>
-            </StackLayout>
+                    <Label
+                        TextColor="White"
+                        VerticalOptions="End"
+                        Text="Assigned to:"
+                        FontSize="Medium"/>
+                    <Picker
+                        ItemsSource="{Binding Employees}"
+                        SelectedIndex="{Binding AssignedEmployeeId}"
+                        HorizontalOptions="FillAndExpand"
+                        FontSize="Small"/>
+                    <Grid
+                        Padding="0"
+                        Margin="0"
+                        RowSpacing="15"
+                        ColumnSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
+                        <!-- Begin date -->
+                        <Label
+                            TextColor="White"
+                            VerticalOptions="End"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Begin date:"
+                            FontSize="Medium"/>
+                        <DatePicker
+                            MaximumDate="{Binding MaxDate}"
+                            MinimumDate="{Binding MinDate}"
+                            Date="{Binding BeginDate}"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalOptions="FillAndExpand"
+                            FontSize="Small"/>
+
+                        <!-- End date -->
+                        <Label
+                            TextColor="White"
+                            VerticalOptions="End"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="End date:"
+                            FontSize="Medium"/>
+                        <DatePicker
+                            MaximumDate="{Binding MaxDate}"
+                            MinimumDate="{Binding MinDate}"
+                            Date="{Binding EndDate}"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalOptions="FillAndExpand"
+                            FontSize="Small"/>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
             <StackLayout
                 VerticalOptions="EndAndExpand"
                 Grid.Row="2"
@@ -97,7 +145,6 @@
                     Text="Go Back to Root"
                     Command="{Binding GoBackToRootCommand}"/>
             </StackLayout>
-            
         </Grid>
         <!--<BoxView
             x:Name="greyBoxView"

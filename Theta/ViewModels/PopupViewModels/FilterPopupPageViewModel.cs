@@ -40,6 +40,23 @@ namespace Theta.ViewModels.PopupViewModels
             set => SetProperty(ref _assignedEmployeeId, value);
         }
 
+        private DateTime? _beginDate;
+        public DateTime? BeginDate
+        {
+            get => _beginDate;
+            set => SetProperty(ref _beginDate, value);
+        }
+
+        private DateTime? _endDate;
+        public DateTime? EndDate
+        {
+            get => _endDate;
+            set => SetProperty(ref _endDate, value);
+        }
+
+        public DateTime MinDate { get; } = DateTime.Now;
+        public DateTime MaxDate { get; } = DateTime.Now.AddMonths(12);
+
         private FilterPopupNavigationArgs NavigationArgs;
 
         public List<string> Statuses { get; } = DictionariesConstants.Statuses.Values.ToList();
@@ -58,6 +75,8 @@ namespace Theta.ViewModels.PopupViewModels
             if (parameters.GetNavigationMode() != NavigationMode.Back)
             {
                 NavigationArgs = GetParameters<FilterPopupNavigationArgs>(parameters);
+
+                InitCurrentFilterOptions();
             }
         }
 
@@ -71,6 +90,8 @@ namespace Theta.ViewModels.PopupViewModels
                     Priority = PriorityId,
                     AssignedEmployeeId = AssignedEmployeeId,
                     NodeType = NodeTypeId,
+                    //BeginDate = BeginDate,
+                    //EndDate = EndDate,
                 });
 
                 await navigationService.GoBackAsync();
@@ -86,5 +107,12 @@ namespace Theta.ViewModels.PopupViewModels
             await navigationService.GoBackToRootAsync();
         });
 
+        private void InitCurrentFilterOptions()
+        {
+            NodeTypeId = NavigationArgs?.CurrentFilterOptions?.NodeType;
+            PriorityId = NavigationArgs?.CurrentFilterOptions?.Priority;
+            NodeStatusFilterId = NavigationArgs?.CurrentFilterOptions?.Status;
+            AssignedEmployeeId = NavigationArgs?.CurrentFilterOptions?.AssignedEmployeeId;
+        }
     }
 }
