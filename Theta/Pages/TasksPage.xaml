@@ -113,7 +113,7 @@
             ItemsSource="{Binding Tasks}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <context:SideContextMenuView
+                    <!--<context:SideContextMenuView
                         ForceCloseCommand="{Binding ForceCloseCommand}">
                         <context:SideContextMenuView.View>
                             <Frame
@@ -208,9 +208,9 @@
                                             WidthRequest="35"
                                             HeightRequest="35">
                                             <controls:TintedCachedImage.GestureRecognizers>
-                                                <!--<TapGestureRecognizer
+                                                <TapGestureRecognizer
                                                     Command="{Binding Source={x:Reference CollectionView}, Path=BindingContext.DeleteCommand}"
-                                                    CommandParameter="{Binding}"/>-->
+                                                    CommandParameter="{Binding}"/>
                                                 <TapGestureRecognizer
                                                     Command="{Binding Path=BindingContext.NodeDetailsCommad,Source={x:Reference root}}" CommandParameter="{Binding .}"/>
                                             </controls:TintedCachedImage.GestureRecognizers>
@@ -219,7 +219,125 @@
                                 </Frame>
                             </DataTemplate>
                         </context:SideContextMenuView.ContextTemplate>  
-                    </context:SideContextMenuView>
+                    </context:SideContextMenuView>-->
+
+                    <controls:ExpandableView
+                        VerticalOptions="Start"
+                        Spacing="0"
+                        Margin="0,15,0,15">
+                        <controls:ExpandableView.PrimaryView>
+                            <Frame
+                                Padding="20"
+                                HasShadow="False"
+                                BorderColor="LightGray"
+                                HorizontalOptions="FillAndExpand">
+                                <Grid
+                                    HorizontalOptions="FillAndExpand"
+                                    Padding="0"
+                                    Margin="0"
+                                    HeightRequest="75">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+                                        FontSize="Small"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding Name}"/>
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Spacing="5"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            TextColor="LightGray"
+                                            VerticalOptions="Center"
+                                            FontSize="Small"
+                                            Text="type:"/>
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start">
+                                            <Label.Text>
+                                                <Binding Path="NodeType">
+                                                    <Binding.Converter>
+                                                        <converters:DictionaryKeyToValueConverter ConstantValue="1"/>
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label
+                                            Margin="20,0,0,0"
+                                            TextColor="LightGray"
+                                            VerticalOptions="Center"
+                                            FontSize="Small"
+                                            Text=" status:"/>
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="StartAndExpand">
+                                            <Label.Text>
+                                                <Binding Path="Status">
+                                                    <Binding.Converter>
+                                                        <converters:DictionaryKeyToValueConverter ConstantValue="2"/>
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                    </StackLayout>
+                                </Grid>
+                            <!--<Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Path=BindingContext.NodeTappedCommad,Source={x:Reference root}}" CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>-->
+                        </Frame>
+                        </controls:ExpandableView.PrimaryView>
+                        <controls:ExpandableView.SecondaryViewTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    BorderColor="Brown"
+                                    HasShadow="False"
+                                    Margin="0">
+                                    <StackLayout
+                                        Margin="0"
+                                        Spacing="0">
+                                        <Label
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="Task1"/>
+                                        <StackLayout
+                                            Spacing="5"
+                                            Orientation="Horizontal">
+                                            <Label
+                                                TextColor="LightGray"
+                                                VerticalOptions="Center"
+                                                FontSize="Small"
+                                                Text="type:"/>
+                                            <Label
+                                                TextColor="Black"
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="Start"
+                                                Text="Task">
+                                            </Label>
+
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </controls:ExpandableView.SecondaryViewTemplate>
+                    </controls:ExpandableView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

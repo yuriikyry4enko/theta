@@ -98,7 +98,7 @@ namespace Theta.ViewModels
             {
                 Tasks.Clear();
 
-                string filterOptionTaskCodition = $"{nameof(NodeModel.NodeType)} = {DictionariesConstants.NodeTypes.FirstOrDefault(x => x.Value == "Task").Key}";
+                string filterOptionTaskCodition = $"{nameof(NodeModel.NodeType)} = {DictionariesConstants.NodeTypes.FirstOrDefault(x => x.Value == "Project").Key}";
 
                 Tasks = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByFilterOptions(InitFilterOptionsList(filterOptionModel, filterOptionTaskCodition)));
             }

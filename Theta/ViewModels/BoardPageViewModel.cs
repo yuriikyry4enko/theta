@@ -19,11 +19,20 @@ namespace Theta.ViewModels
     {
         private readonly INodeDatabase _nodeDatabase;
 
+        public Action UpdateFilterBox { get; set; }
+
         private ObservableCollection<NodeModel> _boardNodes = new ObservableCollection<NodeModel>();
         public ObservableCollection<NodeModel> BoardNodes
         {
             get => _boardNodes;
             set => SetProperty(ref _boardNodes, value);
+        }
+
+        private ObservableCollection<FilterOption> _filterOptions = new ObservableCollection<FilterOption>();
+        public ObservableCollection<FilterOption> FilterOptions
+        {
+            get => _filterOptions;
+            set => SetProperty(ref _filterOptions, value);
         }
 
         private BoardNavigationArgs _navigatedNodeModel = new BoardNavigationArgs();
@@ -52,6 +61,10 @@ namespace Theta.ViewModels
 
                 await InitNodesCollection();
             }
+            else
+            {
+                InitFilterOptionsList();
+            }
         }
 
         #region Commands
@@ -66,6 +79,10 @@ namespace Theta.ViewModels
                     await InitNodesCollection(filterOptions);
 
                     CurrentFilterOptions = filterOptions;
+
+                    InitFilterOptionsList();
+
+                    UpdateFilterBox.Invoke();
                 },
             }), null, false);
         });
@@ -103,6 +120,13 @@ namespace Theta.ViewModels
             }), null, false);
         });
 
+
+        public ICommand RemoveFilterOptionChipCommand => new Command(() =>
+        {
+           
+        });
+
+
         #endregion
 
         private async Task InitNodesCollection(FilterOptionModel filterOptionModel = null)
@@ -116,6 +140,23 @@ namespace Theta.ViewModels
                 BoardNodes = new ObservableCollection<NodeModel>(await _nodeDatabase.GetNodesByFilterOptions(InitFilterOptionsList(filterOptionModel, paramParentId)));
             }
             catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private void InitFilterOptionsList()
+        {
+            try
+            {
+                if (CurrentFilterOptions != null)
+                {   
+                    FilterOptions.Clear();
+
+                    FilterOptions = new ObservableCollection<FilterOption>(CurrentFilterOptions?.GetFilterItemsWithNames());
+                }
+            }
+            catch(Exception ex)
             {
                 Debug.WriteLine(ex);
             }

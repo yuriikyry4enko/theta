@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Theta.Constants;
+
 namespace Theta.Models
 {
     public class FilterOptionModel
@@ -14,5 +17,66 @@ namespace Theta.Models
         public DateTime? BeginDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public List<FilterOption> GetFilterItemsWithNames()
+        {
+
+            List<FilterOption> values = new List<FilterOption>();
+
+
+            if (NodeType != null)
+            {
+                values.Add(new FilterOption
+                {
+                    Name = "Type",
+                    Value = DictionariesConstants.NodeTypes[NodeType.Value],
+                });
+            }
+
+            if (AssignedEmployeeId != null)
+            {
+                values.Add(new FilterOption
+                {
+                    Name = "Assigned to",
+                    Value = DictionariesConstants.Employees[AssignedEmployeeId.Value],
+                });
+            }
+
+            if (Status != null)
+            {
+                values.Add(new FilterOption
+                {
+                    Name = nameof(Status),
+                    Value = DictionariesConstants.Statuses[Status.Value],
+                });
+            }
+
+            if (Priority != null)
+            {
+                values.Add(new FilterOption
+                {
+                    Name = nameof(Priority),
+                    Value = DictionariesConstants.Priorities[Priority.Value],
+                });
+            }
+
+
+            return values;
+        }
+    }
+
+    public class FilterOption
+    {
+        public string Name { get; set; }
+
+        public string Value { get; set; }
+
+        public string FullText
+        {
+            get
+            {
+                return $"{Name}: {Value}";
+            }
+        }
     }
 }

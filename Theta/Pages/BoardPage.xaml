@@ -7,6 +7,7 @@
     xmlns:converters="clr-namespace:Theta.Converters"
     xmlns:controls="clr-namespace:Theta.Controls"
     xmlns:resources="clr-namespace:Theta.Resources;assembly=Theta"
+    xmlns:chips="clr-namespace:Xamarin.Forms.Chips;assembly=Xamarin.Forms.Chips"
     x:Class="Theta.Pages.BoardPage"
     x:Name="root">
     <ContentPage.Resources>
@@ -22,6 +23,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--Parent header node-->
@@ -228,7 +230,7 @@
         <StackLayout
             Spacing="20"
             Grid.Row="2"
-            Margin="0,0,23,35"
+            Margin="0,0,23,0"
             VerticalOptions="End"
             HorizontalOptions="End">
             <controls:Circle
@@ -263,6 +265,86 @@
                     </controls:Circle.GestureRecognizers>
             </controls:Circle>
         </StackLayout>
+        <!-- FlexLayout -->
+        <!--<FlexLayout Grid.Row="3"
+                    HeightRequest="70"
+                    Direction="Row"
+                    VerticalOptions="End"
+                    AlignContent="End"
+                    JustifyContent="SpaceEvenly"
+                    AlignItems="Center"
+                    Wrap="Wrap"
+                    BackgroundColor="AliceBlue">
+            
+            <Label Text="Label 1"
+                   TextColor="Blue"
+                   BackgroundColor="Pink" />
 
+            <Label x:Name="label2"
+                   Text="Label 2"
+                   TextColor="Red"
+                   BackgroundColor="Cyan" />
+            
+            <Label Text="Label 3"
+                   TextColor="Blue"
+                   BackgroundColor="Pink" />
+
+            <Label x:Name="label4"
+                   Text="Label 4"
+                   TextColor="Red"
+                   BackgroundColor="Cyan" />
+
+            <Label Text="Label 5"
+                   TextColor="Blue"
+                   BackgroundColor="Pink" />
+        </FlexLayout>-->
+        <StackLayout
+            Grid.Row="3"
+            Margin="15,0,15,35">
+            <FlexLayout
+                x:Name="flexLayoutFilterOptions"
+                Padding="0"
+                Margin="0"
+                Direction="Row"
+                VerticalOptions="End"
+                AlignContent="End"
+                JustifyContent="Start"
+                AlignItems="End"
+                Wrap="Wrap">
+                <!--<chips:Chip
+                    Margin="2"
+                    VerticalOptions="Center"
+                    BackgroundColor="LightGreen"
+                    Text="Status:"
+                    Padding="6, 3"
+                    CloseButtonImage="https://path.to.image/close.png"
+                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>
+            
+                <chips:Chip
+                    Margin="2"
+                    VerticalOptions="Center"
+                    BackgroundColor="LightGreen"
+                    Text="Node Type:"
+                    Padding="6, 3"
+                    CloseButtonImage="https://path.to.image/close.png"
+                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>
+                <chips:Chip
+                    Margin="2"
+                    VerticalOptions="Center"
+                    BackgroundColor="LightGreen"
+                    Text="Period:"
+                    CloseButtonImage="https://path.to.image/close.png"
+                    Padding="6, 3"
+                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>
+                <chips:Chip
+                    Margin="2"
+                    VerticalOptions="Center"
+                    BackgroundColor="LightGreen"
+                    Text="Assigned to:"
+                    Padding="6, 3"
+                    CloseButtonImage="https://path.to.image/close.png"
+                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>-->
+            </FlexLayout>
+        </StackLayout>
     </Grid>
 </pages:BasePage>
