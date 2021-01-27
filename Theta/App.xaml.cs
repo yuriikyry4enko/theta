@@ -10,6 +10,7 @@ using Theta.Pages.PopupPages;
 using Theta.ViewModels.PopupViewModels;
 using Rg.Plugins.Popup.Services;
 using Acr.UserDialogs;
+using Theta.Services;
 
 namespace Theta
 {
@@ -32,7 +33,8 @@ namespace Theta
             containerRegistry.RegisterInstance(PopupNavigation.Instance);
 
             containerRegistry.RegisterSingleton<INodeDatabase, NodeDatabase>();
-
+            containerRegistry.RegisterSingleton<IAuthorizationService, AuthorizationService>();
+            
             containerRegistry.RegisterForNavigation<BoardPage, BoardPageViewModel>();
             containerRegistry.RegisterForNavigation<MenuPopupPage, MenuPopupPageViewModel>();
             containerRegistry.RegisterForNavigation<FilterPopupPage, FilterPopupPageViewModel>();

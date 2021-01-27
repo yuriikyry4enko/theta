@@ -5,6 +5,8 @@ using Android.OS;
 using Prism.Ioc;
 using Prism;
 using Acr.UserDialogs;
+using Plugin.CurrentActivity;
+using Xamarin.Forms;
 
 namespace Theta.Droid
 {
@@ -16,6 +18,8 @@ namespace Theta.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
+            DependencyService.Register<ChromeCustomTabsBrowser>();
+
             base.OnCreate(savedInstanceState);
 
             Rg.Plugins.Popup.Popup.Init(this);
@@ -23,6 +27,7 @@ namespace Theta.Droid
             UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             LoadApplication(new App(new AndroidInitializer()));

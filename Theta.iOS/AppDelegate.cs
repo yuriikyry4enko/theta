@@ -6,6 +6,7 @@ using Foundation;
 using Prism;
 using Prism.Ioc;
 using UIKit;
+using Xamarin.Forms;
 
 namespace Theta.iOS
 {
@@ -27,6 +28,7 @@ namespace Theta.iOS
             Rg.Plugins.Popup.Popup.Init();
 
             global::Xamarin.Forms.Forms.Init();
+            DependencyService.Register<ASWebAuthenticationSessionBrowser>();
 
             ContextMenuViewRenderer.Preserve();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();

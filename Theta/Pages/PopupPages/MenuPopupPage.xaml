@@ -50,6 +50,35 @@
                     <Label
                         FontSize="Large"
                         TextColor="White"
+                        Text="Login"/>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="Login"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout
+                    Spacing="15"
+                    HorizontalOptions="FillAndExpand"
+                    Padding="25,20"
+                    Orientation="Horizontal">
+                    <controls:Circle
+                        VerticalOptions="Center"
+                        Padding="0"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Color="Yellow">
+                        <!--<controls:TintedCachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="20"
+                            TintColor="White"
+                            HeightRequest="20"/>
+                            <controls:Circle.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCommand}"/>
+                            </controls:Circle.GestureRecognizers>-->
+                    </controls:Circle>
+                    <Label
+                        FontSize="Large"
+                        TextColor="White"
                         Text="Tree"/>
                     <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="Tree"/>
