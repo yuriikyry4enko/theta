@@ -291,9 +291,6 @@ namespace Theta.ViewModels
 
                 await GetPosibleParentsNodes();
 
-                //await GetPosibleChildNodes(true);
-
-
                 if(NavigationArgs.ParentNodeModel != null)
                 {
                     ParentModel = PosibleParentNodes.FirstOrDefault(x => x.LocalId == NavigationArgs.ParentNodeModel.LocalId);

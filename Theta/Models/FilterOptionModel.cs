@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Prism.Mvvm;
 using Theta.Constants;
 
 namespace Theta.Models
@@ -65,7 +66,7 @@ namespace Theta.Models
         }
     }
 
-    public class FilterOption
+    public class FilterOption : BindableBase
     {
         public string Name { get; set; }
 

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Navigation;
@@ -121,9 +119,24 @@ namespace Theta.ViewModels
         });
 
 
-        public ICommand RemoveFilterOptionChipCommand => new Command(() =>
+        public ICommand RemoveFilterOptionChipCommand => new Command<FilterOption>(async (item) =>
         {
-           
+            try
+            {
+                var propertyInfo = CurrentFilterOptions.GetType().GetProperty(item.Name);
+                propertyInfo?.SetValue(CurrentFilterOptions, null, null);
+
+                await InitNodesCollection(CurrentFilterOptions);
+
+                FilterOptions.Remove(FilterOptions.FirstOrDefault(x => x.Name == item.Name));
+
+                UpdateFilterBox.Invoke();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
         });
 
 

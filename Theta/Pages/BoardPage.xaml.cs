@@ -13,6 +13,18 @@ namespace Theta.Pages
     {
         BoardPageViewModel viewModel;
 
+        Style buttonStyle = new Style(typeof(ImageButton))
+        {
+            Setters =
+            {
+                new Setter
+                {
+                    Property = ImageButton.SourceProperty,
+                    Value = Color.FromRgb(0, 77, 64)
+                },
+            },
+        };
+
         public BoardPage()
         {
             try
@@ -41,18 +53,25 @@ namespace Theta.Pages
                         flexLayoutFilterOptions?.Children.Clear();
                         foreach (var item in viewModel?.FilterOptions)
                         {
-                            flexLayoutFilterOptions.Children.Add(new Chip()
+                            var chip = new Chip()
                             {
+                                BindingContext = item,
                                 Margin = 2,
                                 VerticalOptions = LayoutOptions.Center,
                                 BackgroundColor = Color.LightBlue,
                                 Text = item.FullText,
                                 Padding = new Thickness(6, 3),
-                                CloseButtonImage = "https://path.to.image/close.png",
+                                CloseButtonImage = "https://image.flaticon.com/icons/png/128/61/61155.png",
                                 CloseCommand = viewModel.RemoveFilterOptionChipCommand,
+                               
+                            };
 
-                            });
+                            chip.CloseCommandParameter = chip.BindingContext;
+
+                            flexLayoutFilterOptions.Children.Add(chip); 
                         }
+
+                       
                     };
                 }
             }

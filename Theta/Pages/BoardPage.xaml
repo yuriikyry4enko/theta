@@ -311,39 +311,7 @@
                 JustifyContent="Start"
                 AlignItems="End"
                 Wrap="Wrap">
-                <!--<chips:Chip
-                    Margin="2"
-                    VerticalOptions="Center"
-                    BackgroundColor="LightGreen"
-                    Text="Status:"
-                    Padding="6, 3"
-                    CloseButtonImage="https://path.to.image/close.png"
-                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>
-            
-                <chips:Chip
-                    Margin="2"
-                    VerticalOptions="Center"
-                    BackgroundColor="LightGreen"
-                    Text="Node Type:"
-                    Padding="6, 3"
-                    CloseButtonImage="https://path.to.image/close.png"
-                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>
-                <chips:Chip
-                    Margin="2"
-                    VerticalOptions="Center"
-                    BackgroundColor="LightGreen"
-                    Text="Period:"
-                    CloseButtonImage="https://path.to.image/close.png"
-                    Padding="6, 3"
-                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>
-                <chips:Chip
-                    Margin="2"
-                    VerticalOptions="Center"
-                    BackgroundColor="LightGreen"
-                    Text="Assigned to:"
-                    Padding="6, 3"
-                    CloseButtonImage="https://path.to.image/close.png"
-                    CloseCommand="{Binding RemoveFilterOptionChipCommand}"/>-->
+               
             </FlexLayout>
         </StackLayout>
     </Grid>
